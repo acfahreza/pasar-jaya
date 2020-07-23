@@ -7,11 +7,11 @@ import {
   View,
   Button,
   Image,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Modal from 'react-native-modal';
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 class FormPengisianScreen extends Component {
   state = {
     formData: {
@@ -25,27 +25,28 @@ class FormPengisianScreen extends Component {
     avatarSrc1: {},
     avatarSrc2: {},
     isModalVisible: false,
+    typeImage: '',
+    errors: [],
   };
-  
+
   _openCamera = () => {
     ImagePicker.openCamera({
-      width:700,
-      height:450,
       cropping: true,
       freeStyleCropEnabled: true,
       enableRotationGesture: true,
       includeBase64: true,
     }).then((image) => {
       // console.log(image);
+
+      console.log('IMAGE', image);
       this.setState({
-        avatarSrc:image
-      })
-      ,this.setState({isModalVisible: !this.state.isModalVisible})
+        avatarSrc: image,
+      }),
+        this.setState({isModalVisible: !this.state.isModalVisible});
     });
   };
   _openGaleri = () => {
- const {width} = Dimensions.get('window');
- const height = width * 0.5; //60%
+    const {typeImage} = this.state;
     ImagePicker.openPicker({
       // width,
       // height,
@@ -55,11 +56,45 @@ class FormPengisianScreen extends Component {
       includeBase64: true,
     }).then((image) => {
       //console.log(image);
+      if (typeImage === 'ktp') {
+        //do something
+      } else if (typeImage === 'kk') {
+        //do something
+      } else {
+        // do something
+      }
+      console.log('IMAGE', image);
       this.setState({
-        avatarSrc:image,
-      })
-      ,this.setState({isModalVisible: !this.state.isModalVisible})
+        avatarSrc: image,
+      }),
+        this.setState({isModalVisible: !this.state.isModalVisible});
     });
+  };
+
+  handleSubmit = () => {
+    const {navigation, route} = this.props;
+    const {formData} = this.state;
+    console.log('formData', formData);
+    let newError = [];
+    Object.keys(formData)?.forEach((data) => {
+      console.log('dataaa', data);
+      if (formData[data] === '') {
+        newError.push(data);
+      }
+    });
+    if (newError.length > 0) {
+      this.setState({errors: newError});
+    } else {
+      navigation.navigate('Form Detail', {
+        ItemId: route.params.ItemId,
+        nik: nik,
+        name: name,
+        tempat_lahir: tempat_lahir,
+        alamat: alamat,
+        phone: phone,
+        ktp_image: ktp,
+      });
+    }
   };
 
   // _openCamera1 = () => {
@@ -120,9 +155,11 @@ class FormPengisianScreen extends Component {
   //   });
   // };
 
-
-  toggleModal = () => {
-    this.setState({isModalVisible: !this.state.isModalVisible});
+  toggleModal = (type) => {
+    this.setState({
+      isModalVisible: !this.state.isModalVisible,
+      type: type || '',
+    });
   };
 
   // toggleModal1 = () => {
@@ -132,7 +169,6 @@ class FormPengisianScreen extends Component {
   // toggleModal2 = () => {
   //   this.setState({isModalVisible: !this.state.isModalVisible});
   // };
-
 
   // CheckTextInput = () => {
   //   //Handler for the Submit onPress
@@ -150,52 +186,66 @@ class FormPengisianScreen extends Component {
   // };
 
   render() {
-    const {
-      nik,
-      name,
-      tempat_lahir,
-      alamat,
-      phone,
-    } = this.state.formData;
-const { navigation,route } = this.props;
+    const {nik, name, tempat_lahir, alamat, phone} = this.state.formData;
+    const {errors} = this.state;
+    console.log('errors', errors);
 
-// const sourceUrl = this.state.avatarSrc.path ? ({uri: this.state.avatarSrc.path}) 
-//                 : require('./../../../assets/icon/about.png');
-const ktp = this.state.avatarSrc.path;
-//const ktp = 'data:'+this.state.avatarSrc.mime+';base64,'+this.state.avatarSrc.data;
-const selfie = 'data:'+this.state.avatarSrc1.mime+';base64,'+this.state.avatarSrc1.data;
-const kk = 'data:'+this.state.avatarSrc2.mime+';base64,'+this.state.avatarSrc2.data;
+    // const sourceUrl = this.state.avatarSrc.path ? ({uri: this.state.avatarSrc.path})
+    //                 : require('./../../../assets/icon/about.png');
+    const ktp = this.state.avatarSrc.path;
+    //const ktp = 'data:'+this.state.avatarSrc.mime+';base64,'+this.state.avatarSrc.data;
+    const selfie =
+      'data:' +
+      this.state.avatarSrc1.mime +
+      ';base64,' +
+      this.state.avatarSrc1.data;
+    const kk =
+      'data:' +
+      this.state.avatarSrc2.mime +
+      ';base64,' +
+      this.state.avatarSrc2.data;
     return (
       <>
- {/* Modal */}
+        {/* Modal */}
 
-<Modal isVisible={this.state.isModalVisible} animationType="fade" transparent={true}
-onSwipeComplete={() => setModalVisible(false)}
-swipeDirection="left">
-<View
-style={{
-backgroundColor: 'white',
-borderRadius:25
-}}>
-<View style={{margin:20}}>
-<Text style={{fontWeight:'bold',fontSize:20,marginBottom:10}}>Pilih Gambar</Text>
-<View style={{marginBottom:10}}>
-<Button title="Camera" onPress={this._openCamera} />
-</View>
-<View style={{marginBottom:15}}>
-<Button title="Galeri" onPress={this._openGaleri} />
-</View>
-<TouchableOpacity onPress={this.toggleModal}>
-<View style={{alignContent: 'center',alignItems: 'center',backgroundColor:'#ebebeb',paddingVertical:10}}>
-<Text style={{fontSize: 16,color: 'blue',}}>KEMBALI</Text>
-</View></TouchableOpacity>
-</View>
-</View>
-</Modal>
+        <Modal
+          isVisible={this.state.isModalVisible}
+          animationType="fade"
+          transparent={true}
+          onSwipeComplete={() => setModalVisible(false)}
+          swipeDirection="left">
+          <View
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 25,
+            }}>
+            <View style={{margin: 20}}>
+              <Text
+                style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>
+                Pilih Gambar
+              </Text>
+              <View style={{marginBottom: 10}}>
+                <Button title="Camera" onPress={this._openCamera} />
+              </View>
+              <View style={{marginBottom: 15}}>
+                <Button title="Galeri" onPress={this._openGaleri} />
+              </View>
+              <TouchableOpacity onPress={this.toggleModal}>
+                <View
+                  style={{
+                    alignContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#ebebeb',
+                    paddingVertical: 10,
+                  }}>
+                  <Text style={{fontSize: 16, color: 'blue'}}>KEMBALI</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
 
-
-   
-        <ScrollView style={{backgroundColor:'white',marginBottom:20}}>
+        <ScrollView style={{backgroundColor: 'white', marginBottom: 20}}>
           <View style={{paddingTop: 1, paddingHorizontal: 16}}>
             <View
               style={{
@@ -211,8 +261,7 @@ borderRadius:25
                   color: '#1C1C1C',
                   marginBottom: 5,
                 }}>
-                Deskripsi Form :
-                {/* {JSON.stringify(this.state.formData)} */}
+                Deskripsi Form :{/* {JSON.stringify(this.state.formData)} */}
               </Text>
               <View
                 style={{
@@ -223,7 +272,7 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red'}}>
+                  <Text style={{fontSize: 14, color: 'black'}}>
                     Masukan NIK :
                   </Text>
                 </View>
@@ -231,7 +280,8 @@ borderRadius:25
                   <TextInput
                     style={styles.input}
                     placeholder="Masukan NIK Anda"
-                    keyboardType="number-pad" maxLength={16}
+                    keyboardType="number-pad"
+                    maxLength={16}
                     onChangeText={(nik) =>
                       this.setState((prevState) => ({
                         formData: {
@@ -243,6 +293,11 @@ borderRadius:25
                     value={nik}
                   />
                 </View>
+                {errors && errors.includes('nik') && (
+                  <Text style={{color: 'red', fontSize: 10, marginTop: 5}}>
+                    data anda tidak boleh koosng
+                  </Text>
+                )}
               </View>
               <View
                 style={{
@@ -253,7 +308,7 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Nama Lengkap :
                   </Text>
                 </View>
@@ -272,6 +327,11 @@ borderRadius:25
                     value={name}
                   />
                 </View>
+                {errors && errors.includes('name') && (
+                  <Text style={{color: 'red', fontSize: 10, marginTop: 5}}>
+                    data anda tidak boleh koosng
+                  </Text>
+                )}
               </View>
               <View
                 style={{
@@ -282,24 +342,30 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Tempat, Tanggal Lahir :
                   </Text>
                 </View>
                 <View>
-                  <TextInput style={styles.input} 
-                  placeholder="Jakarta D-M-Y"
-                  onChangeText={(tempat_lahir) =>
-                    this.setState((prevState) => ({
-                      formData: {
-                        ...prevState.formData,
-                        tempat_lahir,
-                      },
-                    }))
-                  }
-                  value={tempat_lahir}
-                   />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Jakarta D-M-Y"
+                    onChangeText={(tempat_lahir) =>
+                      this.setState((prevState) => ({
+                        formData: {
+                          ...prevState.formData,
+                          tempat_lahir,
+                        },
+                      }))
+                    }
+                    value={tempat_lahir}
+                  />
                 </View>
+                {errors && errors.includes('tempat_lahir') && (
+                  <Text style={{color: 'red', fontSize: 10, marginTop: 5}}>
+                    data anda tidak boleh koosng
+                  </Text>
+                )}
               </View>
               <View
                 style={{
@@ -310,24 +376,31 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Alamat :
                   </Text>
                 </View>
                 <View>
-                  <TextInput style={styles.input} 
-                  placeholder="Masukan Alamat"
-                  onChangeText={(alamat) =>
-                    this.setState((prevState) => ({
-                      formData: {
-                        ...prevState.formData,
-                        alamat,
-                      },
-                    }))
-                  }
-                  value={alamat}
-                   />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Masukan Alamat"
+                    onChangeText={(alamat) =>
+                      this.setState((prevState) => ({
+                        formData: {
+                          ...prevState.formData,
+                          alamat,
+                        },
+                      }))
+                    }
+                    value={alamat}
+                  />
                 </View>
+
+                {errors && errors.includes('alamat') && (
+                  <Text style={{color: 'red', fontSize: 10, marginTop: 5}}>
+                    data anda tidak boleh koosng
+                  </Text>
+                )}
               </View>
               <View
                 style={{
@@ -338,24 +411,33 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Nomor Handphone :
                   </Text>
                 </View>
                 <View>
-                  <TextInput style={styles.input} 
-                  placeholder="Masukan Nomor Hp" keyboardType="number-pad" maxLength={13}
-                  onChangeText={(phone) =>
-                    this.setState((prevState) => ({
-                      formData: {
-                        ...prevState.formData,
-                        phone,
-                      },
-                    }))
-                  }
-                  value={phone}
-                   />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Masukan Nomor Hp"
+                    keyboardType="number-pad"
+                    maxLength={13}
+                    onChangeText={(phone) =>
+                      this.setState((prevState) => ({
+                        formData: {
+                          ...prevState.formData,
+                          phone,
+                        },
+                      }))
+                    }
+                    value={phone}
+                  />
                 </View>
+
+                {errors && errors.includes('phone') && (
+                  <Text style={{color: 'red', fontSize: 10, marginTop: 5}}>
+                    data anda tidak boleh koosng
+                  </Text>
+                )}
               </View>
               {/* <View
                 style={{
@@ -366,7 +448,7 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Tanggal Lahir :
                   </Text>
                 </View>
@@ -414,7 +496,7 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Foto KTP :
                   </Text>
                 </View>
@@ -427,8 +509,7 @@ borderRadius:25
                     borderColor: '#7A7A7A',
                     borderWidth: 1,
                   }}
-                  onPress={this.toggleModal} 
-                >
+                  onPress={() => this.toggleModal('ktp')}>
                   <Text
                     style={{
                       textAlign: 'center',
@@ -439,6 +520,12 @@ borderRadius:25
                     Pilih Photo
                   </Text>
                 </TouchableOpacity>
+
+                {errors && errors.includes('ktpImage') && (
+                  <Text style={{color: 'red', fontSize: 10, marginTop: 5}}>
+                    data anda tidak boleh koosng
+                  </Text>
+                )}
               </View>
 
               {/* <View
@@ -450,7 +537,7 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Foto Selfie :
                   </Text>
                 </View>
@@ -487,7 +574,7 @@ borderRadius:25
                   marginLeft: 10,
                 }}>
                 <View style={{alignItems: 'flex-start'}}>
-                  <Text style={{fontSize: 14, color: 'red', marginBottom: 1}}>
+                  <Text style={{fontSize: 14, color: 'black', marginBottom: 1}}>
                     Foto Kartu Keluarga :
                   </Text>
                 </View>
@@ -514,8 +601,6 @@ borderRadius:25
                   </Text>
                 </TouchableOpacity>
               </View> */}
-
-            
             </View>
 
             <Text
@@ -526,7 +611,6 @@ borderRadius:25
                 marginBottom: -5,
               }}>
               {/* {route.params.ItemId} */}
-
               Catatan*
             </Text>
             <Text style={{fontSize: 13, color: 'black', margin: 10}}>
@@ -535,22 +619,7 @@ borderRadius:25
             </Text>
           </View>
 
-          <TouchableOpacity
-            onPress={() => 
-            this.props.navigation.navigate('Form Detail',{
-              ItemId:route.params.ItemId,
-              nik:nik,
-              name:name,
-              tempat_lahir:tempat_lahir,
-              alamat:alamat,
-              phone:phone,
-              ktp_image:ktp,
-              // selfie:selfie,
-              // selfie:kk,
-            })
-            }
-            >
-              
+          <TouchableOpacity onPress={() => this.handleSubmit()}>
             <View
               style={{
                 height: 45,
@@ -569,7 +638,7 @@ borderRadius:25
                 }}>
                 <Text
                   style={{
-                    fontSize: 30,
+                    fontSize: 24,
                     fontWeight: 'bold',
                     color: 'white',
                     top: -2,
@@ -579,23 +648,18 @@ borderRadius:25
               </View>
             </View>
           </TouchableOpacity>
-
-     
-
         </ScrollView>
         <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
-        <Image
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 28,
-            width: '100%',
-          }}
-          source={require('../../../assets/logo/FooterHome.png')}
-        />
-      </View>
-
-
+          <Image
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 28,
+              width: '100%',
+            }}
+            source={require('../../../assets/logo/FooterHome.png')}
+          />
+        </View>
       </>
     );
   }

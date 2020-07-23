@@ -19,9 +19,7 @@ const height = width * 0.6; //60%
 //   'https://rumahdijual.com/attachments/bintaro/2584699d1429087557-kios-pasar-ceger-jurang-mangu-barat-bintaro-tangsel-img-20120611-00396.jpg',
 // ];
 
-
 export default class SewaDetailScreen extends Component {
-
   state = {
     active: 0,
   };
@@ -35,11 +33,14 @@ export default class SewaDetailScreen extends Component {
     }
   };
   render() {
-    const { navigation,route } = this.props;
-    const  Idsewa  = route.params; 
-    let  j = route.params.service_id-1;
-// console.log(data1[j]);
-// console.log(data1[j].ImageData);
+    const {navigation, route} = this.props;
+    const Idsewa = route.params;
+    let j = route.params.service_id - 1;
+    const indexData = data1.findIndex(
+      (data) => data.id === route.params.service_id,
+    );
+    // console.log(data1[indexData]);
+    // console.log(data1[indexData].ImageData);
     return (
       <>
         <View style={{width, height}}>
@@ -49,7 +50,7 @@ export default class SewaDetailScreen extends Component {
             onScroll={this.change}
             showsHorizontalScrollIndicator={false}
             style={{width, height}}>
-            {data1[j].ImageData.map((image, index) => (
+            {data1[indexData].ImageData.map((image, index) => (
               <Image
                 key={index}
                 source={{uri: image}}
@@ -64,7 +65,7 @@ export default class SewaDetailScreen extends Component {
               bottom: 0,
               alignSelf: 'center',
             }}>
-            {data1[j].ImageData.map((i, k) => (
+            {data1[indexData].ImageData.map((i, k) => (
               <Text
                 key={k}
                 style={
@@ -78,212 +79,421 @@ export default class SewaDetailScreen extends Component {
           </View>
         </View>
 
-        <ScrollView style={{backgroundColor:'white',marginBottom:20}}>
-          
-            <View
+        <ScrollView style={{backgroundColor: 'white', marginBottom: 20}}>
+          <View
+            style={{
+              paddingTop: 16,
+              paddingBottom: 20,
+              marginRight: 5,
+            }}>
+            <Text
               style={{
-                paddingTop: 16,
-                paddingBottom: 20,
-                marginRight:5
-                
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: '#1C1C1C',
+                marginLeft: 10,
+                marginBottom: 5,
               }}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  color: '#1C1C1C',
-                  marginLeft:5,
-                  marginBottom:5,
-                }}>
-                 Deskripsi Sewa : {data1[j].title}
-                </Text> 
-                <Text style={{fontSize: 14,fontWeight: 'bold',color: '#545454',marginLeft: 10,}}>
-               Untuk memakai tempat usaha milik Perusahaan Umum Daerah Pasar Jaya Di :
-                {/* {route.params.title} */}
-              </Text>
-              <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >Pasar</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',textTransform:'uppercase'}} >{data1[j].loc}, {data1[j].pasar}</Text>
-                    </View>
-                </View>
-                </View>
-                <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >Tempat Usaha</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].title}</Text>
-                    </View>
-                </View>
-                </View>
-                <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >Klasifikasi Pasar</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].description}</Text>
-                    </View>
-                </View>
-                </View>
-                <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >Luas</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].luas}</Text>
-                    </View>
-                </View>
-                </View>
-
-              <Text style={{fontSize: 14,fontWeight: 'bold',color: '#545454',marginLeft: 10, marginTop:10,marginBottom:5}}>
-               Dengan Bangunan :
-              </Text>
-              <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >A. Atap</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].atap}</Text>
-                    </View>
-                </View>
-                </View>
-                <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >B. Tiang</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].tiang}</Text>
-                    </View>
-                </View>
-                </View>
-                <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >C. Dinding</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].dinding}</Text>
-                    </View>
-                </View>
-                </View>
-                <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >D. Lantai</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].lantai}</Text>
-                    </View>
-                </View>
-                </View>
-                  {/* PART3 */}
-                <View style={{marginLeft:10,marginTop:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',fontWeight:'bold'}} >Jenis Jualan</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].jenis}</Text>
-                    </View>
-                </View>
-                </View>
-                <View style={{marginLeft:10}}>
-                <View style={{flexDirection:'row',marginBottom:5}}>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Text style={{fontSize:14,color:'#545454',fontWeight:'bold'}} >Macam Dagangan</Text>
-                        </View>
-                        <View style={{lignItems:'flex-start',justifyContent:'flex-start',width:10}}>
-                        <Text style={{fontSize:14,color:'#545454',}} >:</Text>
-                        </View>
-                    <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].macam}</Text>
-                    </View>
-                </View>
-                </View>
-              
-              <TouchableOpacity
-              onPress={() => 
-              this.props.navigation.navigate('Form Sewa',{
-                ItemId:route.params.service_id
-              })}>
-            <View
+              Deskripsi Sewa : {data1[indexData].title}
+            </Text>
+            <Text
               style={{
-                height: 45,
-                flexDirection: 'row',
-                backgroundColor: '#f8a541',
-                marginLeft: 40,
-                marginRight: 40,
-                borderRadius: 25,
-                marginTop:20
+                fontSize: 14,
+                fontWeight: 'bold',
+                color: '#545454',
+                marginLeft: 10,
               }}>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text
+              Untuk memakai tempat usaha milik Perusahaan Umum Daerah Pasar Jaya
+              Di :{/* {route.params.title} */}
+            </Text>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
                   style={{
-                    fontSize: 30,
-                    fontWeight: 'bold',
-                    color: 'white',
-                    top: -2,
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
                   }}>
-                 Sewa Tempat
-                </Text>
+                  <Text style={{fontSize: 14, color: '#545454'}}>Pasar</Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: '#545454',
+                      textTransform: 'uppercase',
+                    }}>
+                    {data1[indexData].loc}, {data1[indexData].pasar}
+                  </Text>
+                </View>
               </View>
             </View>
-          </TouchableOpacity>
-             
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    Tempat Usaha
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].title}
+                  </Text>
+                </View>
+              </View>
             </View>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    Klasifikasi Pasar
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].description}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>Luas</Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].luas}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: 'bold',
+                color: '#545454',
+                marginLeft: 10,
+                marginTop: 10,
+                marginBottom: 5,
+              }}>
+              Dengan Bangunan :
+            </Text>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>A. Atap</Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].atap}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>B. Tiang</Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].tiang}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    C. Dinding
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].dinding}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    D. Lantai
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].lantai}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            {/* PART3 */}
+            <View style={{marginLeft: 10, marginTop: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: '#545454',
+                      fontWeight: 'bold',
+                    }}>
+                    Jenis Jualan
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].jenis}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={{marginLeft: 10}}>
+              <View style={{flexDirection: 'row', marginBottom: 5}}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: '#545454',
+                      fontWeight: 'bold',
+                    }}>
+                    Macam Dagangan
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    lignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    width: 10,
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>:</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontSize: 14, color: '#545454'}}>
+                    {data1[indexData].macam}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('Form Sewa', {
+                  ItemId: route.params.service_id,
+                })
+              }>
+              <View
+                style={{
+                  height: 45,
+                  flexDirection: 'row',
+                  backgroundColor: '#f8a541',
+                  marginLeft: 40,
+                  marginRight: 40,
+                  borderRadius: 25,
+                  marginTop: 20,
+                }}>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 24,
+                      fontWeight: 'bold',
+                      color: 'white',
+                      top: -2,
+                    }}>
+                    Sewa Tempat
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
         <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
-        <Image
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 28,
-            width: '100%',
-          }}
-          source={require('../../../assets/logo/FooterHome.png')}
-        />
-      </View>
+          <Image
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 28,
+              width: '100%',
+            }}
+            source={require('../../../assets/logo/FooterHome.png')}
+          />
+        </View>
       </>
     );
   }

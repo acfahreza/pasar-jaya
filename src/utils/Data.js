@@ -121,7 +121,7 @@ export const data1 = [
   },
   {
     id: 6,
-    title: 'Counter',
+    title: 'COUNTER',
     loc:'TAnah abang blok A',
     pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:

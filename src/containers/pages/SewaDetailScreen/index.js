@@ -110,7 +110,7 @@ export default class SewaDetailScreen extends Component {
                         <Text style={{fontSize:14,color:'#545454',}} >:</Text>
                         </View>
                     <View style={{flex:1,alignItems:'flex-start',justifyContent:'center'}}>
-                    <Text style={{fontSize:14,color:'#545454',}} >{data1[j].pasar}</Text>
+                    <Text style={{fontSize:14,color:'#545454',textTransform:'uppercase'}} >{data1[j].loc}, {data1[j].pasar}</Text>
                     </View>
                 </View>
                 </View>

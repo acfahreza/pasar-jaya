@@ -2,7 +2,8 @@ export const data1 = [
   {
     id: 1,
     title: 'KIOS',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    loc:'TANAH ABANG',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://rumahdijual.com/attachments/tangerang/32285d1320383900-kios-di-pasar-8-alam-sutera-copy.jpg',
     description: 'POTENSI A',
@@ -25,7 +26,8 @@ export const data1 = [
   {
     id: 2,
     title: 'LOS',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    loc:'KEBON KOSONG',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://cdn-radar.jawapos.com/uploads/radarkudus/news/2019/09/11/los-pasar-rakyat-masih-sepi-begini-respon-dinas-perdagangan_m_155290.jpg',
     description: 'POTENSI A',
@@ -48,7 +50,8 @@ export const data1 = [
   {
     id: 3,
     title: 'COUNTER',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    loc:'TANAH ABANG BLOK C',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://rumahdijual.com/attachments/kota-lain/27052819d1534741807-disewakan-ruko-kios-counter-pasar-bersih-galuh-mas-karawang-whatsapp-image-2018-08-20-10.54.10.jpg',
     description: 'POTENSI A',
@@ -71,7 +74,8 @@ export const data1 = [
   {
     id: 4,
     title: 'KIOS',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    loc:'KEBON KOSONG blok c',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://palangkaraya.go.id/wp-content/uploads/2019/01/IMG-20190125-WA0023.jpg',
     description: 'POTENSI A',
@@ -93,8 +97,9 @@ export const data1 = [
   },
   {
     id: 5,
-    title: 'KIOS',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    title: 'LOS',
+    loc:'KEBON KOSONG Blok D',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://palangkaraya.go.id/wp-content/uploads/2019/01/IMG-20190125-WA0023.jpg',
     description: 'POTENSI A',
@@ -116,8 +121,9 @@ export const data1 = [
   },
   {
     id: 6,
-    title: 'KIOS',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    title: 'Counter',
+    loc:'TAnah abang blok A',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://palangkaraya.go.id/wp-content/uploads/2019/01/IMG-20190125-WA0023.jpg',
     description: 'POTENSI A',
@@ -140,7 +146,8 @@ export const data1 = [
   {
     id: 7,
     title: 'KIOS',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    loc:'KEBON KOSONG',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://palangkaraya.go.id/wp-content/uploads/2019/01/IMG-20190125-WA0023.jpg',
     description: 'POTENSI A',
@@ -163,7 +170,8 @@ export const data1 = [
   {
     id: 8,
     title: 'KIOS',
-    pasar: 'TANAH ABANG BLOK A, Blok A Lantai: GF Los: AKS No: 108',
+    loc:'KEBON KOSONG BLOK A',
+    pasar: 'Blok A Lantai: GF Los: AKS No: 108',
     titleImage:
       'https://palangkaraya.go.id/wp-content/uploads/2019/01/IMG-20190125-WA0023.jpg',
     description: 'POTENSI A',
@@ -182,6 +190,6 @@ export const data1 = [
       'https://palangkaraya.go.id/wp-content/uploads/2019/01/IMG-20190125-WA0023.jpg',
       'https://rumahdijual.com/attachments/bintaro/2584699d1429087557-kios-pasar-ceger-jurang-mangu-barat-bintaro-tangsel-img-20120611-00396.jpg',
     ],
-  },
+  },    
   
 ];

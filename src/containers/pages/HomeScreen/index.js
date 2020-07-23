@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {
   Image,
   ScrollView,
@@ -12,24 +12,41 @@ import MainFeature from '../../../components/molecules/MainFeature';
 import SearchFeature from '../../../components/molecules/SearchFeature';
 import {data1} from '../../../utils';
 
-const HomeScreen = ({navigation}) => {
-  {
-    /* Rekomendasi Sewa */
-  }
-  const type = 'Kios';
-  const listItems = data1.map((data, index) => (
-    <View style={{marginRight: 5, marginBottom: 15, width: 170}} key={index}>
+
+class HomeScreen extends Component {
+
+    state = {
+      search: '',
+    };
+    
+    updateSearch = (search) => {
+      this.setState({ search });
+    };
+
+  render() {
+    const { search } = this.state;
+    const {navigation} = this.props;
+    const type = 'Kios';
+    const items = data1.filter((data) => {
+      if (search == null) {
+         return data;
+      }else if (
+        data.title.toLowerCase().includes(this.state.search.toLowerCase()) ||
+        data.loc.toLowerCase().includes(this.state.search.toLowerCase()) 
+      ) {
+        return data;
+      }
+    }).map((data,index) => {
+      return (
+        <View style={{marginRight: 5, marginBottom: 15, width: 170}} key={index}>
       <TouchableOpacity
-        onPress={
-          () =>
+        onPress={() =>
             navigation.navigate('Sewa Detail', {
               service_id: data.id,
-              title: data.title,
             })
-          // alert('ID : ' + data.id)
         }>
         <View style={{marginLeft: 5, marginRight: 5, marginTop: 5}}>
-          <Image
+          <Image 
             source={{uri: data.titleImage}}
             style={{height: 170, borderRadius: 6, width: '100%'}}
           />
@@ -46,7 +63,7 @@ const HomeScreen = ({navigation}) => {
           <Text style={{fontSize: 20, color: '#8C8585'}}>{data.title}</Text>
           <Text
             style={{fontSize: 10, color: '#A8A8A8', top: -2, marginBottom: 5}}>
-            Di {data.description}
+            Di {data.loc}
           </Text>
           <Text style={{fontSize: 12, color: '#8C8585'}}>
             Luas : {data.luas}
@@ -60,13 +77,11 @@ const HomeScreen = ({navigation}) => {
         </View>
       </TouchableOpacity>
     </View>
-  ));
-  {
-    /* End Rekomendasi Sewa */
-  }
+      );
+    });
 
-  return (
-    <>
+    return (
+      <>
       {/* <SearchFeature /> */}
       <View style={{backgroundColor: 'white', marginTop: -10}}>
         <View
@@ -121,7 +136,9 @@ const HomeScreen = ({navigation}) => {
         <View
           style={{marginHorizontal: 15, flexDirection: 'row', paddingTop: 5}}>
           <View style={{position: 'relative', flex: 1}}>
-            <TextInput
+            <TextInput 
+            onChangeText={this.updateSearch}
+            value={search}
               placeholder="Pencarian"
               style={{
                 borderWidth: 1,
@@ -138,7 +155,8 @@ const HomeScreen = ({navigation}) => {
                 marginLeft: 10,
                 justifyContent: 'center',
                 alignContent: 'center',
-              }}></TextInput>
+              }}
+              ></TextInput>
             <Image
               source={require('../../../assets/icon/search.png')}
               style={{position: 'absolute', top: 7, left: 18}}
@@ -165,7 +183,7 @@ const HomeScreen = ({navigation}) => {
             marginRight: 10,
             marginLeft: 10,
           }}>
-          {listItems}
+          {items}
         </View>
       </ScrollView>
       <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}>
@@ -180,9 +198,11 @@ const HomeScreen = ({navigation}) => {
         />
       </View>
     </>
-  );
-};
+    );
 
+  }
+
+}
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'white',

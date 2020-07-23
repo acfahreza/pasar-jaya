@@ -47,8 +47,8 @@ class FormPengisianScreen extends Component {
  const {width} = Dimensions.get('window');
  const height = width * 0.5; //60%
     ImagePicker.openPicker({
-      width,
-      height,
+      // width,
+      // height,
       cropping: true,
       freeStyleCropEnabled: true,
       enableRotationGesture: true,
